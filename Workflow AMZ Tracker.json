@@ -1,0 +1,150 @@
+{
+  "name": "Workflow AMZ Tracker",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8c907465-8ba6-4a1b-a423-c9a5efbe25bc",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://www.amazon.com/dp/B0DCH8VDXF?smid=ATVPDKIKX0DER",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+            },
+            {
+              "name": "Accept",
+              "value": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8"
+            },
+            {
+              "name": "Accept-Language",
+              "value": "es-ES,es;q=0.9,en;q=0.8"
+            },
+            {
+              "name": "Device-Memory",
+              "value": "8"
+            },
+            {
+              "name": "Viewport-Width",
+              "value": "1440"
+            },
+            {
+              "name": "Cookie",
+              "value": "session-id=135-1234567-1234567; i18n-prefs=USD; ubid-main=131-1234567-1234567; lc-main=es_US; zip-code=33101; csm-hit=tb:s-8M1N; sp-cdn=\"L5Z9\""
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "755fe8ac-a0b9-47fd-9754-c328d01a56c4",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "const html = $input.first().json.data;\nconst regexPrecio = /\\$[\\d]+\\.[\\d]{2}/; // Sin la \"g\" para que solo tome el primero\nconst match = html.match(regexPrecio);\n\nreturn {\n  precio_final: match ? match[0] : \"No encontrado\"\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "7149f5a5-5e0b-444f-8d68-8b983d2679f6",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "chatId": "369021351",
+        "text": "=🛒 ¡Precio Detectado! \nProducto: Apple EarPods USB-C \nPrecio: {{ $json.precio_final }} \nLink: https://www.amazon.com/dp/B0DCH8VDXF?smid=ATVPDKIKX0DER",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        624,
+        0
+      ],
+      "id": "0e34f56e-bc42-47c6-8ee2-10100141686d",
+      "name": "Send a text message",
+      "webhookId": "6b6a3314-a3cf-46fe-8489-199451b434c2",
+      "credentials": {
+        "telegramApi": {
+          "id": "CHLuiJX84wUGa4N2",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "e3bf3b19-2ed0-44d5-b9fe-b953330e92bb",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "041e05f37ab0acd1fd89270a4fb141c87dc0231b1defe5e9b588e7a22410de61"
+  },
+  "id": "6dtdgWw3zIxv29Ik",
+  "tags": []
+}

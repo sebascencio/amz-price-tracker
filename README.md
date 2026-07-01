@@ -20,12 +20,25 @@ Un sistema automatizado diseñado para monitorear las fluctuaciones de precios d
 
 ## 📁 Estructura del Repositorio
 
-*   `Workflow AMZ Tracker.json`: La exportación completa del flujo de n8n. Puedes importar este archivo directamente en tu propia instancia de n8n.
+*   `amz-tracker.json`: La exportación completa del flujo de n8n. Puedes importar este archivo directamente en tu propia instancia de n8n.
 *   `docker-compose.yml`: (Opcional) El archivo de configuración utilizado para levantar el entorno de n8n.
 *   `README.md`: Documentación del proyecto.
+
+## 📦 Despliegue y Uso
+
+Para correr este proyecto en tu entorno local, asegúrate de tener instalado [Docker Desktop](https://www.docker.com/products/docker-desktop/).
+
+1.  **Levantar n8n:** Clonar este repositorio, abrir la terminal en la carpeta raíz y ejecutar:
+    ```bash
+    docker compose up -d
+    ```
+    El servicio estará expuesto de forma predeterminada en `http://localhost:5678` según la configuración del contenedor.
+2.  **Importar el Flujo:** Crear un nuevo workflow en n8n e importar el archivo `amz-tracker.json`.
+3.  **Configuración de Variables y API:** Es necesario ingresar el **API Token** de tu propio bot de Telegram y definir la URL de Amazon del producto a monitorear dentro de los parámetros de los nodos correspondientes.
 
 ## 🔍 QA e Insights Técnicos (Fase Actual de Optimización)
 
 Como parte de las prácticas de mejora continua y control de calidad (QA), el proyecto se encuentra actualmente en mantenimiento para corregir los siguientes casos borde:
-*   **Consistencia en el Web Scraping:** El flujo ocasionalmente captura elementos alternativos en lugar del precio real actual debido a cambios dinámicos en la estructura del frontend (DOM) de Amazon.
-*   **Solución Planificada:** Implementar selectores CSS/XPaths de respaldo (fallbacks) y añadir pasos de validación de datos para asegurar que solo los datos numéricos limpios del precio activen el sistema de notificaciones.
+* **Consistencia en el Web Scraping:** El flujo ocasionalmente captura elementos alternativos en lugar del precio real actual debido a cambios dinámicos en la estructura del frontend (DOM) de Amazon.
+* **Solución Planificada:** Implementar selectores CSS/XPaths de respaldo (fallbacks) y añadir pasos de validación de datos para asegurar que solo los datos numéricos limpios del precio activen el sistema de notificaciones.
+

@@ -40,5 +40,5 @@ Para correr este proyecto en tu entorno local, asegúrate de tener instalado [Do
 
 Como parte de las prácticas de mejora continua y control de calidad (QA), el proyecto se encuentra actualmente en mantenimiento para corregir los siguientes casos borde:
 * **Consistencia en el Web Scraping:** El flujo ocasionalmente captura elementos alternativos en lugar del precio real actual debido a cambios dinámicos en la estructura del frontend (DOM) de Amazon.
-* **Solución Planificada:** Implementar selectores CSS/XPaths de respaldo (fallbacks) y añadir pasos de validación de datos para asegurar que solo los datos numéricos limpios del precio activen el sistema de notificaciones.
+* **Solución Planificada:** Implementar selectores CSS/XPaths de respaldo (fallbacks) y añadir pasos de validación de datos para asegurar que solo los datos numéricos limpios del precio activen el sistema de notificaciones. 
 
